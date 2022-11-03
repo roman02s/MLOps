@@ -1,13 +1,12 @@
 from typing import List
 
 import numpy as np
-import pandas as pd
 import pytest
 from numpy.testing import assert_allclose
 
-from ml_example.data.make_dataset import read_data
-from ml_example.enities.feature_params import FeatureParams
-from ml_example.features.build_features import make_features, extract_target, build_transformer
+from ml_project.src import read_data
+from ml_project.src.enities.feature_params import FeatureParams
+from ml_project.src.features import make_features, extract_target, build_transformer
 
 
 @pytest.fixture

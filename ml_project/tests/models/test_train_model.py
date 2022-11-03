@@ -8,11 +8,11 @@ import pytest
 from py._path.local import LocalPath
 from sklearn.ensemble import RandomForestRegressor
 
-from ml_example.data.make_dataset import read_data
-from ml_example.enities import TrainingParams
-from ml_example.enities.feature_params import FeatureParams
-from ml_example.features.build_features import make_features, extract_target, build_transformer
-from ml_example.models.model_fit_predict import train_model, serialize_model
+from ml_project.src import read_data
+from ml_project.src import TrainingParams
+from ml_project.src.enities.feature_params import FeatureParams
+from ml_project.src.features import make_features, extract_target, build_transformer
+from ml_project.src.models.model_fit_predict import train_model, serialize_model
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def features_and_target(
     params = FeatureParams(
         categorical_features=categorical_features,
         numerical_features=numerical_features,
-        features_to_drop=["YrSold"],
+        features_to_drop=["YrSvold"],
         target_col="SalePrice",
     )
     data = read_data(dataset_path)

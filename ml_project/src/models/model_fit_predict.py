@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.pipeline import Pipeline
 
-from ml_example.enities.train_params import TrainingParams
+from ml_project.src.enities.train_params import TrainingParams
 
 SklearnRegressionModel = Union[RandomForestRegressor, LinearRegression]
 

@@ -1,5 +1,5 @@
-from ml_example.data.make_dataset import read_data, split_train_val_data
-from ml_example.enities import SplittingParams
+from ml_project.src import read_data, split_train_val_data
+from ml_project.src import SplittingParams
 
 
 def test_load_dataset(dataset_path: str, target_col: str):

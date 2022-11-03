@@ -3,8 +3,8 @@ from typing import List
 
 from py._path.local import LocalPath
 
-from ml_example.train_pipeline import run_train_pipeline
-from ml_example.enities import (
+from ml_project.src import run_train_pipeline
+from ml_project.src import (
     TrainingPipelineParams,
     SplittingParams,
     FeatureParams,

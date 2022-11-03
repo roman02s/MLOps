@@ -1,21 +1,16 @@
 import json
 import logging
-import os
 import sys
-from pathlib import Path
 
 import click
-import pandas as pd
 
-from ml_example.data import read_data, split_train_val_data
-from ml_example.data.make_dataset import download_data_from_s3
-from ml_example.enities.train_pipeline_params import (
-    TrainingPipelineParams,
+from ml_project.src.data import read_data, split_train_val_data
+from ml_project.src.enities.train_pipeline_params import (
     read_training_pipeline_params,
 )
-from ml_example.features import make_features
-from ml_example.features.build_features import extract_target, build_transformer
-from ml_example.models import (
+from ml_project.src.features import make_features
+from ml_project.src.features.build_features import extract_target, build_transformer
+from ml_project.src.models import (
     train_model,
     serialize_model,
     predict_model,
@@ -23,7 +18,7 @@ from ml_example.models import (
 )
 import mlflow
 
-from ml_example.models.model_fit_predict import create_inference_pipeline
+from ml_project.src.models.model_fit_predict import create_inference_pipeline
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
