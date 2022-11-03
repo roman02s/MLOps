@@ -9,7 +9,7 @@ setup(
     name="src",
     packages=find_packages(),
     version="0.1.0",
-    description="Example of ml project",
+    description="Homeworks for the course 'ML in production' from VK Education (Technopark)",
     author="Your name (or your organization/company/team)",
     entry_points={
         "console_scripts": [

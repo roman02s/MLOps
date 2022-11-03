@@ -4,7 +4,7 @@ import sys
 
 import click
 
-from ml_project.src.data import read_data, split_train_val_data
+from ml_project.src.data import read_data, split_train_test_data
 from ml_project.src.enities.train_pipeline_params import (
     read_training_pipeline_params,
 )
@@ -52,11 +52,10 @@ def run_train_pipeline(training_pipeline_params):
     #             path,
     #             os.path.join(downloading_params.output_folder, Path(path).name),
     #         )
-
     logger.info(f"start train pipeline with params {training_pipeline_params}")
     data = read_data(training_pipeline_params.input_data_path)
     logger.info(f"data.shape is {data.shape}")
-    train_df, val_df = split_train_val_data(
+    train_df, val_df = split_train_test_data(
         data, training_pipeline_params.splitting_params
     )
 
@@ -97,7 +96,7 @@ def run_train_pipeline(training_pipeline_params):
 
 
 @click.command(name="train_pipeline")
-@click.argument("config_path")
+@click.argument("config_path", default='configs/train_config.yaml')
 def train_pipeline_command(config_path: str):
     train_pipeline(config_path)
 

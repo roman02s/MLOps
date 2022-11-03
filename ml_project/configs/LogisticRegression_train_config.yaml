@@ -1,0 +1,29 @@
+input_data_path: "data/raw/DATA.csv"
+metric_path: "models/LogisticRegression_metrics_train.json"
+save_model: "models/LogisticRegression.pkl"
+
+model_params:
+  model_type: "LogisticRegression"
+  random_state: 0
+  penalty: 'l1'
+
+feature_params:
+  one_hot_encoding_features:
+    - "Systemic Illness"
+    - "Rectal Pain"
+    - "Sore Throat"
+    - "Penile Oedema"
+    - "Oral Lesions"
+    - "Solitary Lesion"
+    - "Swollen Tonsils"
+    - "HIV Infection"
+    - "Sexually Transmitted Infection"
+    - "MonkeyPox"
+  num_features:
+    - "Patient_ID"
+  target: "condition"
+
+
+splitting_params:
+  test_size: 0.2
+  random_state: 0
