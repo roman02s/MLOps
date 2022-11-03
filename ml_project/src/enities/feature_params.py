@@ -4,8 +4,8 @@ from typing import List, Optional
 
 @dataclass()
 class FeatureParams:
-    categorical_features: List[str]
-    numerical_features: List[str]
-    features_to_drop: List[str]
-    target_col: Optional[str]
-    use_log_trick: bool = field(default=True)
+    categorical_features: Optional[List[str]] = field(default=None)
+    numerical_features: Optional[List[str]] = field(default=None)
+    features_to_drop: Optional[List[str]] = field(default=None)
+    target_col: Optional[List[str]] = field(default=None)
+    use_log_trick: bool = field(default=False)

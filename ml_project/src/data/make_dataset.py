@@ -23,7 +23,7 @@ def split_train_test_data(data: pd.DataFrame, params) -> Tuple[pd.DataFrame, pd.
     logger.info('create train and test set')
     train_data, test_data = train_test_split(
         data,
-        test_size=params.test_size,
+        test_size=params.val_size,
         random_state=params.random_state,
     )
     logger.info('train and test set created')

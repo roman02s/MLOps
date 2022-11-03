@@ -36,30 +36,54 @@ def build_numerical_pipeline() -> Pipeline:
     return num_pipeline
 
 
+def build_target_col_pipeline() -> Pipeline:
+    return build_categorical_pipeline()
+
+
 def make_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.DataFrame:
     return transformer.transform(df)
 
 
 def build_transformer(params: FeatureParams) -> ColumnTransformer:
-    transformer = ColumnTransformer(
-        [
+    list_pipeline_transformer = []
+    if params.categorical_features:
+        list_pipeline_transformer.append(
             (
                 "categorical_pipeline",
                 build_categorical_pipeline(),
                 params.categorical_features,
-            ),
+            )
+        )
+    if params.numerical_features:
+        list_pipeline_transformer.append(
             (
                 "numerical_pipeline",
                 build_numerical_pipeline(),
                 params.numerical_features,
-            ),
-        ]
+            )
+        )
+    transformer = ColumnTransformer(
+        list_pipeline_transformer
     )
     return transformer
 
 
-def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
-    target = df[params.target_col]
+def build_transformer_target(val_df: pd.DataFrame, params: FeatureParams) -> ColumnTransformer:
+    list_pipeline_transformer = [(
+        (
+            "target_col_pipeline",
+            build_target_col_pipeline(),
+            params.target_col,
+        )
+    )]
+    transformer = ColumnTransformer(
+        list_pipeline_transformer
+    )
+    return transformer
+
+
+def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.DataFrame:
+    target = df[params.categorical_features + params.target_col]
     if params.use_log_trick:
-        target = pd.Series(np.log(target.to_numpy()))
+        target = pd.DataFrame(np.log(target.to_numpy()))
     return target

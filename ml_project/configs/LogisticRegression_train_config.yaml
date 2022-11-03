@@ -1,14 +1,17 @@
 input_data_path: "data/raw/DATA.csv"
+output_model_path: "models/LogisticRegression.pkl"
 metric_path: "models/LogisticRegression_metrics_train.json"
-save_model: "models/LogisticRegression.pkl"
 
-model_params:
-  model_type: "LogisticRegression"
+splitting_params:
+  val_size: 0.2
   random_state: 0
-  penalty: 'l1'
+
+train_params:
+  model_type: "LinearRegression"
+  random_state: 0
 
 feature_params:
-  one_hot_encoding_features:
+  categorical_features:
     - "Systemic Illness"
     - "Rectal Pain"
     - "Sore Throat"
@@ -18,12 +21,12 @@ feature_params:
     - "Swollen Tonsils"
     - "HIV Infection"
     - "Sexually Transmitted Infection"
-    - "MonkeyPox"
-  num_features:
+  features_to_drop:
     - "Patient_ID"
-  target: "condition"
+  target_col:
+    - "MonkeyPox"
 
 
-splitting_params:
-  test_size: 0.2
-  random_state: 0
+
+
+

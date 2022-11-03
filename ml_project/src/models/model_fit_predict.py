@@ -15,7 +15,7 @@ SklearnRegressionModel = Union[RandomForestRegressor, LinearRegression]
 
 
 def train_model(
-    features: pd.DataFrame, target: pd.Series, train_params: TrainingParams
+    features: pd.DataFrame, target: pd.DataFrame, train_params: TrainingParams
 ) -> SklearnRegressionModel:
     if train_params.model_type == "RandomForestRegressor":
         model = RandomForestRegressor(
@@ -25,6 +25,8 @@ def train_model(
         model = LinearRegression()
     else:
         raise NotImplementedError()
+    print(f"{features.shape}")
+    print(f"{target.shape}")
     model.fit(features, target)
     return model
 

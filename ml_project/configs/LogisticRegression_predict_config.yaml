@@ -1,7 +1,0 @@
-input_data_path: "data/raw/DATA.csv"
-model_path: "models/LogisticRegression.pkl"
-predict_path: "models/LogisticRegression_predict.csv"
-transformer_path: "models/LogisticRegression_transformer.pkl"
-
-target_in_dataset: True
-target: "condition"

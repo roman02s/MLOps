@@ -16,11 +16,11 @@ class TrainingPipelineParams:
     output_model_path: str
     metric_path: str
     splitting_params: SplittingParams
-    feature_params: FeatureParams
     train_params: TrainingParams
+    feature_params: FeatureParams
     downloading_params: Optional[DownloadParams] = None
     use_mlflow: bool = False
-    mlflow_uri: str = "http://18.156.5.226/"
+    mlflow_uri: Optional[str] = None
     mlflow_experiment: str = "inference_demo"
 
 
