@@ -47,45 +47,35 @@ def train_pipeline(config_path: str):
 
 
 def run_train_pipeline(training_pipeline_params):
-    # downloading_params = training_pipeline_params.downloading_params
-    # if downloading_params:
-    #     os.makedirs(downloading_params.output_folder, exist_ok=True)
-    #     for path in downloading_params.paths:
-    #         download_data_from_s3(
-    #             downloading_params.s3_bucket,
-    #             path,
-    #             os.path.join(downloading_params.output_folder, Path(path).name),
-    #         )
     logger.info(f"start train pipeline with params {training_pipeline_params}")
     data = read_data(training_pipeline_params.input_data_path)
-    logger.info(f"data.shape is {data.shape}")
     data = extract_target(data, training_pipeline_params.feature_params)
+    logger.info(f"data.shape is {data.shape}")
     train_df, val_df = split_train_test_data(
         data, training_pipeline_params.splitting_params
     )
     logger.info(f"train_df.shape is {train_df.shape}")
     logger.info(f"val_df.shape is {val_df.shape}")
-
+    X_train_df = train_df.drop(training_pipeline_params.feature_params.target_col, axis=1)
+    y_train_df = train_df[training_pipeline_params.feature_params.target_col]
+    logger.info(f"X_train_df.shape is {X_train_df.shape}")
+    logger.info(f"y_train_df.shape is {y_train_df.shape}")
     transformer = build_transformer(training_pipeline_params.feature_params)
-    transformer.fit(train_df)
-    train_df = make_features(transformer, train_df)
-    print(train_df.shape)
-    X_train_df = train_df.columns[:-2]
-    y_train_df = train_df.columns[-2:]
+    transformer.fit(X_train_df, y_train_df)
     model = train_model(
         X_train_df, y_train_df, training_pipeline_params.train_params
     )
-    print(model)
-    return
-    inference_pipeline = create_inference_pipeline(model, transformer)
-    predicts = predict_model(
-        inference_pipeline,
-        val_df,
+    X_val_df = val_df.drop(training_pipeline_params.feature_params.target_col, axis=1)
+    y_val_df = val_df[training_pipeline_params.feature_params.target_col]
+    y_val_df_predicts = predict_model(
+        model,
+        X_val_df,
         training_pipeline_params.feature_params.use_log_trick,
     )
+    logger.info(f"predicts.shape is {y_val_df_predicts.shape}")
     metrics = evaluate_model(
-        predicts,
-        val_target,
+        y_val_df_predicts,
+        y_val_df,
         use_log_trick=training_pipeline_params.feature_params.use_log_trick,
     )
     with open(training_pipeline_params.metric_path, "w") as metric_file:
@@ -93,7 +83,7 @@ def run_train_pipeline(training_pipeline_params):
     logger.info(f"metrics is {metrics}")
 
     path_to_model = serialize_model(
-        inference_pipeline, training_pipeline_params.output_model_path
+        model, training_pipeline_params.output_model_path
     )
     return path_to_model, metrics
 

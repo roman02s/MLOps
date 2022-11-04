@@ -5,13 +5,13 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score, accuracy_score, f1_score
 from sklearn.pipeline import Pipeline
 
 from ml_project.src.enities.train_params import TrainingParams
 
-SklearnRegressionModel = Union[RandomForestRegressor, LinearRegression]
+SklearnRegressionModel = Union[RandomForestRegressor, LogisticRegression]
 
 
 def train_model(
@@ -21,34 +21,32 @@ def train_model(
         model = RandomForestRegressor(
             n_estimators=100, random_state=train_params.random_state
         )
-    elif train_params.model_type == "LinearRegression":
-        model = LinearRegression()
+    elif train_params.model_type == "LogisticRegression":
+        model = LogisticRegression()
     else:
         raise NotImplementedError()
-    print(f"{features.shape}")
-    print(f"{target.shape}")
     model.fit(features, target)
     return model
 
 
 def predict_model(
-    model: Pipeline, features: pd.DataFrame, use_log_trick: bool = True
-) -> np.ndarray:
-    predicts = model.predict(features)
+    model: SklearnRegressionModel, features: pd.DataFrame, use_log_trick: bool = False
+) -> pd.DataFrame:
+    predicts = pd.DataFrame(model.predict(features))
     if use_log_trick:
         predicts = np.exp(predicts)
     return predicts
 
 
 def evaluate_model(
-    predicts: np.ndarray, target: pd.Series, use_log_trick: bool = False
+    predicts: pd.DataFrame, target: pd.DataFrame, use_log_trick: bool = False
 ) -> Dict[str, float]:
     if use_log_trick:
         target = np.exp(target)
     return {
-        "r2_score": r2_score(target, predicts),
-        "rmse": mean_squared_error(target, predicts, squared=False),
-        "mae": mean_absolute_error(target, predicts),
+        "Roc|Auc": roc_auc_score(predicts, target),
+        "Accuracy": accuracy_score(predicts, target),
+        "F1": f1_score(predicts, target),
     }
 
 

@@ -17,7 +17,7 @@ def process_categorical_features(categorical_df: pd.DataFrame) -> pd.DataFrame:
 def build_categorical_pipeline() -> Pipeline:
     categorical_pipeline = Pipeline(
         [
-            ("impute", SimpleImputer(missing_values=np.nan, strategy="most_frequent")),
+            # ("impute", SimpleImputer(missing_values=np.nan, strategy="most_frequent")),
             ("ohe", OneHotEncoder()),
         ]
     )
@@ -83,7 +83,11 @@ def build_transformer_target(val_df: pd.DataFrame, params: FeatureParams) -> Col
 
 
 def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.DataFrame:
-    target = df[params.categorical_features + params.target_col]
+    columns: list = params.categorical_features + params.target_col
+    target = pd.DataFrame(df[columns])
+    for column in columns:
+        list_uniq_column = np.unique(target[column])
+        target[column].replace(list_uniq_column, [*range(len(list_uniq_column))], inplace=True)
     if params.use_log_trick:
         target = pd.DataFrame(np.log(target.to_numpy()))
     return target

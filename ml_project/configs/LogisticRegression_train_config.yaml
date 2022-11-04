@@ -7,7 +7,7 @@ splitting_params:
   random_state: 0
 
 train_params:
-  model_type: "LinearRegression"
+  model_type: "LogisticRegression"
   random_state: 0
 
 feature_params:
