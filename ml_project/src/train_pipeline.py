@@ -61,11 +61,13 @@ def run_train_pipeline(training_pipeline_params):
     logger.info(f"X_train_df.shape is {X_train_df.shape}")
     logger.info(f"y_train_df.shape is {y_train_df.shape}")
     transformer = build_transformer(training_pipeline_params.feature_params)
-    transformer.fit(X_train_df, y_train_df)
+    print(X_train_df.columns)
+    print(transformer.fit(X_train_df))
+    serialize_model(transformer, training_pipeline_params.output_transformer_path)
     model = train_model(
         X_train_df, y_train_df, training_pipeline_params.train_params
     )
-    X_val_df = val_df.drop(training_pipeline_params.feature_params.target_col, axis=1)
+    X_val_df  = val_df.drop(training_pipeline_params.feature_params.target_col, axis=1)
     y_val_df = val_df[training_pipeline_params.feature_params.target_col]
     y_val_df_predicts = predict_model(
         model,

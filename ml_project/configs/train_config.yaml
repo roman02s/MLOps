@@ -3,39 +3,24 @@ output_model_path: "models/model.pkl"
 metric_path: "models/metrics.json"
 splitting_params:
   val_size: 0.2
-  random_state: 3
+  random_state: 0
 train_params:
   model_type: "RandomForestRegressor"
 feature_params:
   categorical_features:
-    - "MSZoning"
-    - "Neighborhood"
-    - "RoofStyle"
-    - "MasVnrType"
-    - "BsmtQual"
-    - "BsmtExposure"
-    - "HeatingQC"
-    - "CentralAir"
-    - "KitchenQual"
-    - "FireplaceQu"
-    - "GarageType"
-    - "GarageFinish"
-    - "PavedDrive"
-  numerical_features:
-    - "OverallQual"
-    - "MSSubClass"
-    - "OverallCond"
-    - "GrLivArea"
-    - "GarageCars"
-    - "1stFlrSF"
-    - "Fireplaces"
-    - "BsmtFullBath"
-    - "YrSold"
-    - "YearRemodAdd"
-    - "LotFrontage"
-  features_to_drop:
-    - "YrSold"
-  target_col: "SalePrice"
+    - "Systemic Illness"
+    - "Rectal Pain"
+    - "Sore Throat"
+    - "Penile Oedema"
+    - "Oral Lesions"
+    - "Solitary Lesion"
+    - "Swollen Tonsils"
+    - "HIV Infection"
+    - "Sexually Transmitted Infection"
+    features_to_drop:
+      - "Patient_ID"
+    target_col:
+      - "MonkeyPox"
 
 downloading_params:
   s3_bucket: for-dvc

@@ -1,4 +1,6 @@
 import pickle
+import logging
+import sys
 from typing import Dict, Union
 
 import numpy as np
@@ -6,10 +8,17 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import roc_auc_score, accuracy_score, f1_score
 from sklearn.pipeline import Pipeline
 
 from ml_project.src.enities.train_params import TrainingParams
+
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(sys.stdout)
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
+
 
 SklearnRegressionModel = Union[RandomForestRegressor, LogisticRegression]
 
@@ -23,6 +32,8 @@ def train_model(
         )
     elif train_params.model_type == "LogisticRegression":
         model = LogisticRegression()
+    elif train_params.model_type == "DecisionTreeClassifier":
+        model = DecisionTreeClassifier()
     else:
         raise NotImplementedError()
     model.fit(features, target)
@@ -60,3 +71,9 @@ def serialize_model(model: object, output: str) -> str:
     with open(output, "wb") as f:
         pickle.dump(model, f)
     return output
+
+
+def load_model(path: str):
+    logger.info('model loading')
+    with open(path, 'rb') as model:
+        return pickle.load(model)
