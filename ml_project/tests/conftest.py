@@ -1,56 +1,42 @@
 import os
 
 import pytest
-from typing import List
+from typing import List, Optional
 
 
 @pytest.fixture()
 def dataset_path():
     curdir = os.path.dirname(__file__)
-    return os.path.join(curdir, "train_data_sample.csv")
+    return os.path.join(curdir, "DATA.csv")
 
 
 @pytest.fixture()
 def target_col():
-    return "SalePrice"
+    return "MonkeyPox"
 
 
 @pytest.fixture()
 def categorical_features() -> List[str]:
     return [
-        "MSZoning",
-        "Neighborhood",
-        "RoofStyle",
-        "MasVnrType",
-        "BsmtQual",
-        "BsmtExposure",
-        "HeatingQC",
-        "CentralAir",
-        "KitchenQual",
-        "FireplaceQu",
-        "GarageType",
-        "GarageFinish",
-        "PavedDrive",
+        "Systemic Illness",
+        "Rectal Pain",
+        "Sore Throat",
+        "Penile Oedema",
+        "Oral Lesions",
+        "Solitary Lesion",
+        "Swollen Tonsils",
+        "HIV Infection",
+        "Sexually Transmitted Infection",
     ]
 
 
 @pytest.fixture
-def numerical_features() -> List[str]:
+def numerical_features() -> Optional[List[str]]:
     return [
-        "OverallQual",
-        "MSSubClass",
-        "OverallCond",
-        "GrLivArea",
-        "GarageCars",
-        "1stFlrSF",
-        "Fireplaces",
-        "BsmtFullBath",
-        "YrSold",
-        "YearRemodAdd",
-        "LotFrontage",
+        "",
     ]
 
 
 @pytest.fixture()
 def features_to_drop() -> List[str]:
-    return ["YrSold"]
+    return ["Patient_ID"]

@@ -11,6 +11,10 @@ from ml_project.src.models.model_fit_predict import predict_model, load_model
 from ml_project.src.features.build_features import (
     extract_target,
 )
+from ml_project.src.models import (
+    predict_model,
+    evaluate_model,
+)
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
 logger.setLevel(logging.INFO)
@@ -27,6 +31,7 @@ def run_predict(config_path: str):
     feature = extract_target(data, predict_params.feature_params)
     if predict_params.target_in_dataset:
         feature = feature.drop(columns=[predict_params.target], axis=1)
+    logger.info(f'Feature.shape: {feature.shape}')
     model = load_model(predict_params.model_path)
 
     predict = predict_model(model, feature)

@@ -8,22 +8,22 @@ import pytest
 from py._path.local import LocalPath
 from sklearn.ensemble import RandomForestRegressor
 
-from ml_project.src import read_data
-from ml_project.src import TrainingParams
+from ml_project.src.data.make_dataset import read_data
+from ml_project.src.enities.train_params import TrainingParams
 from ml_project.src.enities.feature_params import FeatureParams
-from ml_project.src.features import make_features, extract_target, build_transformer
+from ml_project.src.features.build_features import make_features, extract_target, build_transformer
 from ml_project.src.models.model_fit_predict import train_model, serialize_model
 
 
 @pytest.fixture
 def features_and_target(
     dataset_path: str, categorical_features: List[str], numerical_features: List[str]
-) -> Tuple[pd.DataFrame, pd.Series]:
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     params = FeatureParams(
         categorical_features=categorical_features,
         numerical_features=numerical_features,
-        features_to_drop=["YrSvold"],
-        target_col="SalePrice",
+        features_to_drop=["Patient_ID"],
+        target_col=["MonkeyPox"],
     )
     data = read_data(dataset_path)
     transformer = build_transformer(params)
@@ -33,7 +33,7 @@ def features_and_target(
     return features, target
 
 
-def test_train_model(features_and_target: Tuple[pd.DataFrame, pd.Series]):
+def test_train_model(features_and_target: Tuple[pd.DataFrame, pd.DataFrame]):
     features, target = features_and_target
     model = train_model(features, target, train_params=TrainingParams())
     assert isinstance(model, RandomForestRegressor)

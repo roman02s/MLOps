@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 from numpy.testing import assert_allclose
 
-from ml_project.src import read_data
+from ml_project.src.data import read_data
 from ml_project.src.enities.feature_params import FeatureParams
-from ml_project.src.features import make_features, extract_target, build_transformer
+from ml_project.src.features.build_features import make_features, extract_target, build_transformer
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def feature_params(
     categorical_features: List[str],
     features_to_drop: List[str],
     numerical_features: List[str],
-    target_col: str,
+    target_col: List[str],
 ) -> FeatureParams:
     params = FeatureParams(
         categorical_features=categorical_features,
