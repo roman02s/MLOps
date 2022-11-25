@@ -1,0 +1,22 @@
+model_path: "models/LogisticRegression.pkl"
+input_data_path: "data/raw/DATA.csv"
+feature_params:
+  categorical_features:
+    - "Systemic Illness"
+    - "Rectal Pain"
+    - "Sore Throat"
+    - "Penile Oedema"
+    - "Oral Lesions"
+    - "Solitary Lesion"
+    - "Swollen Tonsils"
+    - "HIV Infection"
+    - "Sexually Transmitted Infection"
+  features_to_drop:
+    - "Patient_ID"
+  target_col:
+    - "MonkeyPox"
+
+
+
+
+

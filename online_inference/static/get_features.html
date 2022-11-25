@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predict</title>
+</head>
+<body>
+
+    <div id="message"></div>
+    <p>
+        Введите Systemic Illness: <br />
+        <input name="username" id="Systemic Illness" />
+    </p>
+    <p>
+        Введите Rectal Pain: <br />
+        <input name="username" id="Rectal Pain" />
+    </p>
+    <p>
+        Введите Sore Throat: <br />
+        <input name="username" id="Sore Throat" />
+    </p>
+    <p>
+        Введите Penile Oedema: <br />
+        <input name="username" id="Penile Oedema" />
+    </p>
+    <p>
+        Введите Oral Lesions: <br />
+        <input name="username" id="Oral Lesions" />
+    </p>
+    <p>
+        Введите Solitary Lesion: <br />
+        <input name="username" id="Solitary Lesion" />
+    </p>
+    <p>
+        Введите Swollen Tonsils: <br />
+        <input name="username" id="Swollen Tonsils" />
+    </p>
+
+    <p>
+        Введите HIV Infection: <br />
+        <input name="username" id="HIV Infection" />
+    </p>
+    <p>
+        Введите Sexually Transmitted Infection: <br />
+        <input name="username" id="Sexually Transmitted Infection" />
+    </p>
+    <p>
+        Введите Patient_ID: <br />
+        <input name="username" id="Patient_ID" />
+    </p>
+    <button onclick="send()">Отправить</button>
+<script>
+    async function send(){
+
+        // получаем введеное в поле имя и возраст
+        const SystemicIllness = document.getElementById("Systemic Illness").value
+        const RectalPain = document.getElementById("Rectal Pain").value
+        const SoreThroat = document.getElementById("Sore Throat").value
+        const PenileOedema = document.getElementById("Penile Oedema").value
+        const OralLesions = document.getElementById("Oral Lesions").value
+        const SolitaryLesion = document.getElementById("Solitary Lesion").value
+        const SwollenTonsils = document.getElementById("Swollen Tonsils").value
+        const HIVInfection = document.getElementById("HIV Infection").value
+        const SexuallyTransmittedInfection = document.getElementById("Sexually Transmitted Infection").value
+        const Patient_ID = document.getElementById("Patient_ID").value
+        // отправляем запрос
+        const response = await fetch("/predict/", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    features: {
+                        "Systemic Illness": SystemicIllness,
+                        "Rectal Pain": RectalPain,
+                        "Sore Throat": SoreThroat,
+                        "Penile Oedema": PenileOedema,
+                        "Oral Lesions": OralLesions,
+                        "Solitary Lesion": SolitaryLesion,
+                        "Swollen Tonsils": SwollenTonsils,
+                        "HIV Infection": HIVInfection,
+                        "Sexually Transmitted Infection": SexuallyTransmittedInfection,
+                        "Patient_ID": Patient_ID
+                    }
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+
+</body>
+</html>
